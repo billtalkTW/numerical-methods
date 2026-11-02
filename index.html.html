@@ -1,0 +1,413 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data: blob:; connect-src 'none'; base-uri 'none'"><meta name="description" content="數值方法互動教學：選函數、改參數，看 2D 圖形、3D 曲面與真實計算誤差。"><title>數值方法｜互動教學</title><style>:root{color-scheme:light;--bg:#f5f6f8;--paper:#fff;--ink:#192f43;--muted:#637587;--line:#dce3ea;--blue:#2862a1;--teal:#0c8584;--orange:#c87435;--red:#b74a4a;--soft:#edf3f8;--surface:#f7fafc;font-family:'Microsoft JhengHei','PingFang TC',system-ui,sans-serif;font-size:15px}*{box-sizing:border-box}body{margin:0;color:var(--ink);background:var(--bg);line-height:1.8}body.dark{color-scheme:dark;--bg:#101c29;--paper:#192a3b;--ink:#e4edf5;--muted:#a2b4c6;--line:#30475d;--blue:#78b6ff;--teal:#6ad1cc;--orange:#f3ae78;--red:#ffa69e;--soft:#233b50;--surface:#152535}button,input,select{font:inherit;color:var(--ink)}button{background:var(--paper);border:1px solid var(--line);border-radius:9px;padding:9px 14px;min-height:42px;cursor:pointer;line-height:1.5}button:hover{background:var(--soft);border-color:var(--blue)}button:disabled{opacity:.45;cursor:default}button.primary{color:var(--paper);background:var(--blue);border-color:var(--blue);font-weight:700}body.dark button.primary{color:#142338}.quiet{font-size:12px;padding:7px 11px;min-height:36px;background:transparent}input,select{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:8px 10px;width:100%;max-width:100%;min-height:42px;font-size:15px}input[type=range]{height:27px;min-height:27px;accent-color:var(--teal);padding:0;margin:8px 0 0}input[type=checkbox]{width:18px;height:18px;min-height:18px;accent-color:var(--teal);margin:0}label{display:block;min-width:0;font-size:12px;font-weight:600}label>input,label>select{display:block;margin-top:6px}output{float:right;color:var(--teal);font-variant-numeric:tabular-nums;font-weight:600}h1,h2,h3,p{margin-top:0}h1{font-size:clamp(29px,3.4vw,40px);letter-spacing:.025em;line-height:1.4;margin-bottom:13px}h2{font-size:18px;margin-bottom:12px;line-height:1.5}h3{font-size:16px;margin-bottom:10px;line-height:1.6}p{margin-bottom:12px}a{color:var(--blue)}[hidden]{display:none!important}:focus-visible{outline:3px solid var(--orange);outline-offset:3px}.app{display:grid;grid-template-columns:226px minmax(0,1fr);min-height:100vh}.sidebar{position:sticky;top:0;height:100vh;background:var(--paper);border-right:1px solid var(--line);padding:30px 18px;display:flex;flex-direction:column;overflow:auto}.brand{padding:0 10px;margin-bottom:28px}.brand strong{display:block;font-size:24px;line-height:1.4;margin:10px 0 14px}.overline{font-size:10px;letter-spacing:.12em;font-weight:700;color:var(--teal)}.badge{font-size:11px;padding:4px 9px;border-radius:99px;border:1px solid var(--line);color:var(--muted)}nav{display:grid;gap:7px}nav button{border-color:transparent;background:transparent;padding:10px 10px;text-align:left;font-size:14px;display:flex;align-items:center;gap:12px}nav button span{font-size:11px;color:var(--muted);min-width:18px}nav button[aria-current=page]{background:var(--soft);color:var(--blue);font-weight:700}.side-note{padding:20px 10px 0;margin-top:auto;font-size:13px;color:var(--muted)}hr{border:0;border-top:1px solid var(--line);margin:16px 0}small{font-size:11px}main{min-width:0;max-width:1580px;padding:28px clamp(20px,3.6vw,55px) 48px}.topbar{display:flex;justify-content:space-between;gap:14px;align-items:center;margin-bottom:32px;font-size:12px;color:var(--muted)}.topbar>div{display:flex;gap:8px;flex-wrap:wrap}.intro{max-width:1000px;margin-bottom:22px}.intro .overline{font-size:11px}.intro p{color:var(--muted);max-width:900px;font-size:15px;margin-bottom:0}.theory-summary{display:grid;grid-template-columns:1fr 1fr;gap:30px;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:24px;margin-bottom:20px}.theory-summary p{margin:6px 0 0;font-size:14px}.mini-label{color:var(--teal);font-size:11px;letter-spacing:.08em;font-weight:700}.math{font-family:Cambria,'Times New Roman','Microsoft JhengHei',serif;font-size:20px;line-height:1.9;overflow-wrap:anywhere}.theory-summary .math{margin-top:6px}.math sub,.math sup{font-size:.65em}.controls-panel{border:1px solid var(--line);border-radius:14px;background:var(--paper);padding:22px 24px;margin-bottom:20px}.section-top{display:flex;gap:18px;align-items:center;justify-content:space-between;margin-bottom:15px}.section-top h2{margin:0}.subtle{font-size:12px;color:var(--muted)}#controls{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px 22px;align-items:start}.check-label{display:flex;align-items:center;gap:9px;align-self:center;padding-top:13px;font-weight:400}.control-actions{display:flex;gap:7px;flex-wrap:wrap;align-items:center;padding-top:20px}#error{background:var(--soft);border-left:3px solid var(--red);color:var(--red);padding:12px 16px;margin-top:18px;font-size:13px}.plot-grid{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:20px}.plot-grid.equal{grid-template-columns:repeat(2,minmax(0,1fr))}.plot-panel{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:22px;min-width:0}.plot-panel h2{margin-bottom:7px}.plot-panel .subtle{margin-bottom:12px}.plot{width:100%;min-width:0;min-height:280px}.plot svg{display:block;max-width:100%}.caption{font-size:11.5px;color:var(--muted);line-height:1.9;margin-top:10px;margin-bottom:0}.legend{display:flex;gap:16px;flex-wrap:wrap;color:var(--muted);font-size:11.5px;margin:0 0 5px}.legend span:before{content:'';width:17px;height:3px;background:var(--swatch,var(--blue));display:inline-block;vertical-align:middle;margin-right:6px}.legend .dash:before{background:repeating-linear-gradient(90deg,var(--swatch,var(--teal)) 0 5px,transparent 5px 8px)}.metric-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:18px;padding-top:18px;border-top:1px solid var(--line)}.metric-row.four{grid-template-columns:repeat(4,minmax(0,1fr))}.metric{min-width:0;padding-left:12px;border-left:2px solid var(--line)}.metric span{display:block;font-size:11px;color:var(--muted)}.metric strong{display:block;font-size:21px;font-weight:600;font-variant-numeric:tabular-nums;overflow-wrap:anywhere;line-height:1.6}.metric small{display:block;color:var(--muted);line-height:1.6}.insight-panel{background:var(--soft);border-left:3px solid var(--teal);padding:18px 23px;margin:20px 0 30px;border-radius:0 10px 10px 0}.insight-panel p{font-size:14px;margin:6px 0 0}.knowledge-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}.knowledge-card{padding:22px;background:var(--paper);border:1px solid var(--line);border-radius:12px;min-width:0}.knowledge-card p{font-size:14px}.knowledge-card p:last-child{margin-bottom:0}.knowledge-card .math{background:var(--surface);padding:12px 14px;font-size:18px;margin:14px 0}.knowledge-card ul{font-size:14px;padding-left:21px}.knowledge-card li{margin-bottom:8px}.table-wrap{overflow:auto;max-width:100%;min-width:0;margin-top:16px}.table-wrap table{width:100%;min-width:350px;border-collapse:collapse;font-size:12px;font-variant-numeric:tabular-nums}th,td{text-align:right;border-bottom:1px solid var(--line);padding:9px 11px;white-space:nowrap}th{background:var(--soft);font-weight:600}th:first-child,td:first-child{text-align:left}.canvas-wrap{height:355px;position:relative;min-width:0;background:var(--surface);border-radius:9px;overflow:hidden}.canvas-wrap canvas{display:block;width:100%;height:100%;touch-action:none;cursor:grab}.canvas-wrap canvas:active{cursor:grabbing}.surface-tools{display:flex;gap:20px;flex-wrap:wrap;align-items:center;margin:12px 0 0}.surface-tools label{display:flex;align-items:center;gap:8px;font-size:12px}.surface-tools input{margin:0}.view-tip{font-size:11px;color:var(--muted)}footer{margin-top:34px;padding-top:18px;border-top:1px solid var(--line);font-size:11px;color:var(--muted)}footer p{margin-top:7px}.control-note{grid-column:1/-1;font-size:11.5px;color:var(--muted);margin:0}.k-title{margin-bottom:8px!important}.full-panel{margin-top:20px}.progress-hint{font-size:12px;color:var(--teal)}.section-top>div{display:flex;gap:7px}.tag{display:inline-block;border:1px solid var(--line);padding:2px 8px;border-radius:99px;font-size:11px;color:var(--muted)}@media(max-width:1150px){.app{grid-template-columns:200px minmax(0,1fr)}.brand strong{font-size:22px}main{padding-left:24px;padding-right:24px}#controls{grid-template-columns:repeat(3,minmax(0,1fr))}.plot-grid,.plot-grid.equal{grid-template-columns:minmax(0,1fr)}.plot-panel .plot{min-height:280px}.canvas-wrap{height:380px}}@media(max-width:760px){.app{display:block}.sidebar{position:static;height:auto;padding:18px 16px 12px;border-right:0;border-bottom:1px solid var(--line)}.brand{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 14px;padding:0}.brand .overline{display:none}.brand strong{font-size:20px;margin:0}.brand strong br{display:none}.side-note{display:none}nav{grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}nav button{font-size:12px;padding:9px 5px;justify-content:center;text-align:center;min-height:43px}nav button span{display:none}main{padding:19px 16px 36px}.topbar{margin-bottom:24px}.topbar>span{font-size:11px}.intro p{font-size:14px}.theory-summary{grid-template-columns:minmax(0,1fr);gap:18px;padding:20px}.controls-panel{padding:20px}#controls{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.plot-panel{padding:18px}.knowledge-grid{grid-template-columns:minmax(0,1fr)}.metric-row,.metric-row.four{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.metric strong{font-size:20px}.knowledge-card{padding:20px}.math{font-size:19px}.canvas-wrap{height:320px}.section-top{align-items:start}.section-top h2{font-size:17px}.subtle{font-size:11px}.control-actions{padding-top:15px}.knowledge>.section-top{display:block}.knowledge>.section-top .subtle{display:block;margin-top:7px}}@media(max-width:380px){#controls{grid-template-columns:minmax(0,1fr)}.brand .badge{font-size:10px;padding:3px 7px}.brand strong{font-size:18px}.topbar>span{max-width:110px}.plot-panel{padding:15px}.theory-summary,.controls-panel{padding:18px}.metric{padding-left:9px}.metric strong{font-size:18px}.canvas-wrap{height:290px}h1{font-size:28px}.legend{gap:10px}.section-top{gap:10px}.quiet{font-size:11px}.control-actions{padding-top:0}.math{font-size:18px}}@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}@media print{.sidebar,.topbar,.controls-panel,.surface-tools,button{display:none!important}.app{display:block}main{padding:0;max-width:none}.plot-grid,.knowledge-grid{display:block}.plot-panel,.knowledge-card,.theory-summary{break-inside:avoid;margin-bottom:15px;box-shadow:none}.insight-panel{break-inside:avoid}.plot svg{max-width:100%}body{background:white;color:black}.table-wrap{overflow:visible}footer{font-size:9pt}.intro h1{font-size:25pt}}
+</style></head><body>
+<div class="app"><aside class="sidebar"><div class="brand"><span class="overline">NUMERICAL METHODS</span><strong>數值方法<br>互動教學</strong><span class="badge">離線知識課本</span></div><nav id="navigation" aria-label="知識單元"></nav><div class="side-note">選函數、改數值，<br>把方法與圖形連起來。<hr><small>七個單元 · 2D / 3D 圖形<br>所有計算都在本機執行。</small></div></aside>
+<main id="main"><header class="topbar"><span>觀念整理 / 函數實驗</span><div><button id="theme" class="quiet" aria-label="切換深色模式">深色模式</button><button id="print" class="quiet">列印本節</button></div></header>
+<section class="intro"><span class="overline" id="category"></span><h1 id="title"></h1><p id="intro"></p></section>
+<section class="theory-summary" aria-label="本節概念"><div><span class="mini-label">核心想法</span><p id="idea"></p></div><div><span class="mini-label">主要關係式</span><div id="main-equation" class="math"></div></div></section>
+<section class="controls-panel"><div class="section-top"><h2>選擇函數與參數</h2><button id="reset" class="quiet">還原本節設定</button></div><form id="controls" novalidate></form><div id="error" role="alert" hidden></div></section>
+<div id="visuals"></div><section class="insight-panel"><span class="mini-label">目前圖形怎麼解讀</span><p id="insight" aria-live="polite"></p></section>
+<section class="knowledge"><div class="section-top"><h2>把這個知識點整理清楚</h2><span class="subtle">概念 · 推導 · 條件 · 誤差</span></div><div id="knowledge-grid" class="knowledge-grid"></div></section>
+<footer><span id="source"></span><p>圖形與互動為教學補充。誤差圖以 log₁₀ 顯示；低於 10⁻¹⁶ 的值僅在圖上放於下限，數值欄保留實際結果。</p></footer>
+</main></div><noscript>互動圖形需要啟用 JavaScript；所有程式已包含在這個檔案，不需網路連線。</noscript>
+<script>'use strict';
+const MathLab=(()=>{
+ const functionInfo=[
+  {id:'exp',name:'指數 exp(kx)',symbol:'f(x)=exp(kx)',min:.2,max:2,step:.1,k:1,a:-1,b:1,x0:0},
+  {id:'sin',name:'正弦 sin(kx)',symbol:'f(x)=sin(kx)',min:.5,max:5,step:.1,k:1,a:-3,b:3,x0:0},
+  {id:'cos',name:'餘弦 cos(kx)',symbol:'f(x)=cos(kx)',min:.5,max:5,step:.1,k:1,a:-3,b:3,x0:0},
+  {id:'runge',name:'Runge：1/(1+kx²)',symbol:'f(x)=1/(1+kx²)',min:1,max:25,step:1,k:25,a:-1,b:1,x0:0},
+  {id:'poly',name:'三次多項式 x³−kx',symbol:'f(x)=x³−kx',min:.5,max:3,step:.1,k:1,a:-2,b:2,x0:0},
+  {id:'log',name:'對數 ln(1+kx)',symbol:'f(x)=ln(1+kx)',min:.2,max:2,step:.1,k:1,a:0,b:2,x0:.5}
+ ];
+ function fn(id,k){
+  if(!(k>0)||!Number.isFinite(k))throw Error('k 必須是有限的正數。');
+  const fac=n=>{let v=1;for(let i=2;i<=n;i++)v*=i;return v;};
+  const xlog=x=>{const u=1+k*x;return u>0?(u*Math.log(u)-u)/k:NaN;};
+  const lib={
+   exp:{f:x=>Math.exp(k*x),d:x=>k*Math.exp(k*x),d2:x=>k*k*Math.exp(k*x),F:x=>Math.exp(k*x)/k,coeff:(x,n)=>Math.exp(k*x)*k**n/fac(n),radius:()=>Infinity},
+   sin:{f:x=>Math.sin(k*x),d:x=>k*Math.cos(k*x),d2:x=>-k*k*Math.sin(k*x),F:x=>-Math.cos(k*x)/k,coeff:(x,n)=>Math.sin(k*x+n*Math.PI/2)*k**n/fac(n),radius:()=>Infinity},
+   cos:{f:x=>Math.cos(k*x),d:x=>-k*Math.sin(k*x),d2:x=>-k*k*Math.cos(k*x),F:x=>Math.sin(k*x)/k,coeff:(x,n)=>Math.cos(k*x+n*Math.PI/2)*k**n/fac(n),radius:()=>Infinity},
+   runge:{f:x=>1/(1+k*x*x),d:x=>-2*k*x/(1+k*x*x)**2,d2:x=>(-2*k+6*k*k*x*x)/(1+k*x*x)**3,F:x=>Math.atan(Math.sqrt(k)*x)/Math.sqrt(k),radius:x=>Math.sqrt(x*x+1/k)},
+   poly:{f:x=>x*x*x-k*x,d:x=>3*x*x-k,d2:x=>6*x,F:x=>x**4/4-k*x*x/2,coeff:(x,n)=>[x**3-k*x,3*x*x-k,3*x,1][n]||0,radius:()=>Infinity},
+   log:{f:x=>1+k*x>0?Math.log1p(k*x):NaN,d:x=>1+k*x>0?k/(1+k*x):NaN,d2:x=>1+k*x>0?-k*k/(1+k*x)**2:NaN,F:xlog,coeff:(x,n)=>n?(-1)**(n-1)*(k/(1+k*x))**n/n:Math.log1p(k*x),radius:x=>x+1/k}
+  };
+  if(!lib[id])throw Error('未知函數。');
+  return {...lib[id],id,k,valid:x=>Number.isFinite(lib[id].f(x))};
+ }
+ function taylor(model,x0,degree){
+  if(!model.valid(x0))throw Error('展開點不在函數定義域內。');
+  if(!Number.isInteger(degree)||degree<0||degree>18)throw Error('Taylor 階數須介於 0 至 18。');
+  const c=[];
+  if(model.id==='runge'){
+   const q0=1+model.k*x0*x0,q1=2*model.k*x0,q2=model.k;
+   for(let i=0;i<=degree;i++)c.push(i===0?1/q0:-(q1*c[i-1]+(i>1?q2*c[i-2]:0))/q0);
+  }else for(let n=0;n<=degree;n++)c.push(model.coeff(x0,n));
+  return {coeff:c,evaluate:x=>{const h=x-x0;let sum=c.at(-1);for(let i=c.length-2;i>=0;i--)sum=sum*h+c[i];return sum;},radius:model.radius(x0)};
+ }
+ function nodes(a,b,degree,kind){
+  if(!(a<b)||!Number.isInteger(degree)||degree<1||degree>18)throw Error('節點區間或次數無效。');
+  return Array.from({length:degree+1},(_,i)=>kind==='chebyshev'?(a+b)/2+(b-a)/2*(-Math.cos(Math.PI*i/degree)):a+(b-a)*i/degree);
+ }
+ function interpolate(xs,ys){
+  if(xs.length!==ys.length||xs.length<2||ys.some(v=>!Number.isFinite(v)))throw Error('節點值必須有限且資料長度一致。');
+  const w=xs.map((x,i)=>1/xs.reduce((p,z,j)=>i===j?p:p*(x-z),1));
+  if(w.some(v=>!Number.isFinite(v)))throw Error('內插節點不可重複。');
+  return x=>{let numerator=0,denominator=0;for(let i=0;i<xs.length;i++){if(Math.abs(x-xs[i])<=2e-14*Math.max(1,Math.abs(x)))return ys[i];const p=w[i]/(x-xs[i]);numerator+=p*ys[i];denominator+=p;}return numerator/denominator;};
+ }
+ function diff(model,x,h,method){
+  if(!(h>0))return NaN;const f=model.f;
+  if(method==='forward')return (f(x+h)-f(x))/h;
+  if(method==='central')return (f(x+h)-f(x-h))/(2*h);
+  if(method==='five')return (f(x-2*h)-8*f(x-h)+8*f(x+h)-f(x+2*h))/(12*h);
+  if(method==='richardson')return (4*(f(x+h/2)-f(x-h/2))/h-(f(x+h)-f(x-h))/(2*h))/3;
+  throw Error('未知差分公式。');
+ }
+ const gn={3:[[-Math.sqrt(3/5),0,Math.sqrt(3/5)],[5/9,8/9,5/9]],4:[[-Math.sqrt((3+2*Math.sqrt(6/5))/7),-Math.sqrt((3-2*Math.sqrt(6/5))/7),Math.sqrt((3-2*Math.sqrt(6/5))/7),Math.sqrt((3+2*Math.sqrt(6/5))/7)],[(18-Math.sqrt(30))/36,(18+Math.sqrt(30))/36,(18+Math.sqrt(30))/36,(18-Math.sqrt(30))/36]]};
+ function integrate(f,a,b,n,method='trap'){
+  if(!Number.isInteger(n)||n<1||n>8192||!(a<b))throw Error('需 a<b，且分段數為正整數。');
+  const h=(b-a)/n;let total=0;
+  if(method==='gauss3'||method==='gauss4'){const [z,w]=gn[method==='gauss3'?3:4];for(let i=0;i<n;i++)for(let j=0;j<z.length;j++)total+=h/2*w[j]*f(a+(i+.5)*h+h/2*z[j]);return total;}
+  if(method==='midpoint'){for(let i=0;i<n;i++)total+=f(a+(i+.5)*h);return total*h;}
+  if(method==='simpson'&&n%2)throw Error('Simpson 1/3 的 n 必須是偶數。');
+  if(!['trap','simpson'].includes(method))throw Error('未知積分公式。');
+  total=(f(a)+f(b))*(method==='trap'?.5:1);
+  for(let i=1;i<n;i++)total+=(method==='trap'?1:i%2?4:2)*f(a+i*h);
+  return total*h/(method==='trap'?1:3);
+ }
+ function romberg(f,a,b,levels=5){const r=[];for(let i=0;i<levels;i++){const row=[integrate(f,a,b,2**(i+1),'trap')];for(let j=1;j<=i;j++)row.push((4**j*row[j-1]-r[i-1][j-1])/(4**j-1));r.push(row);}return r;}
+ const rootInfo=[{id:'cubic',name:'x³−c',c:2,min:.2,max:4,a:0,b:2,x0:1.5},{id:'quadratic',name:'x²−c',c:2,min:.2,max:4,a:0,b:3,x0:2},{id:'cosine',name:'cos(cx)−x',c:1,min:.5,max:4,a:0,b:1,x0:.5},{id:'exponential',name:'exp(x)−c',c:2,min:.5,max:4,a:-2,b:2,x0:.5}];
+ function rootModel(id,c){
+  let f,d,reference;
+  if(id==='cubic'){f=x=>x**3-c;d=x=>3*x*x;reference=Math.cbrt(c);}
+  else if(id==='quadratic'){f=x=>x*x-c;d=x=>2*x;reference=Math.sqrt(c);}
+  else if(id==='exponential'){f=x=>Math.exp(x)-c;d=x=>Math.exp(x);reference=Math.log(c);}
+  else{f=x=>Math.cos(c*x)-x;d=x=>-c*Math.sin(c*x)-1;let a=0,b=1;for(let i=0;i<80;i++){const m=(a+b)/2;if(f(m)>0)a=m;else b=m;}reference=(a+b)/2;}
+  return {f,d,reference};
+ }
+ function rootTrace(model,method,a,b,limit=14){
+  const rows=[],f=model.f;let message='';
+  if(![a,b].every(Number.isFinite))return {rows,message:'請輸入有限的初值。'};
+  if(method==='bisection'){
+   if(!(a<b)||f(a)*f(b)>0)return {rows,message:'二分法需要 a<b 且兩端異號；另須確認函數連續。'};
+   for(let i=0;i<=limit;i++){const x=f(a)===0?a:f(b)===0?b:(a+b)/2,fx=f(x);rows.push({x,fx,a,b,error:Math.abs(x-model.reference)});if(fx===0)break;if(f(a)*fx<0)b=x;else a=x;}
+  }else if(method==='newton'){
+   let x=a;for(let i=0;i<=limit;i++){const fx=f(x),df=model.d(x);rows.push({x,fx,df,error:Math.abs(x-model.reference)});if(!Number.isFinite(fx)){message='迭代離開可計算範圍。';break;}if(Math.abs(fx)<1e-14)break;if(Math.abs(df)<1e-13){message='導數接近零；切線交點無法穩定計算。';break;}const next=x-fx/df;if(!Number.isFinite(next)||Math.abs(next)>1e6){message='更新點過遠，請改初值或先用括根方法。';break;}rows.at(-1).next=next;x=next;}
+  }else{
+   let x0=a,x=b;for(let i=0;i<=limit;i++){const f0=f(x0),fx=f(x);rows.push({x,fx,x0,f0,error:Math.abs(x-model.reference)});if(Math.abs(fx)<1e-14)break;if(Math.abs(fx-f0)<1e-13){message='割線分母接近零，請更換初始兩點。';break;}const next=x-fx*(x-x0)/(fx-f0);if(!Number.isFinite(next)||Math.abs(next)>1e6){message='割線更新點過遠。';break;}rows.at(-1).next=next;x0=x;x=next;}
+  }
+  return {rows,message};
+ }
+ const surfaceInfo=[{id:'plane',name:'斜平面 x+y'},{id:'product',name:'乘積 xy'},{id:'bowl',name:'拋物面 x²+y²'},{id:'wave',name:'波面 2+sin(kπx)cos(kπy)'}];
+ function surface(id,k=1){return id==='plane'?(x,y)=>x+y:id==='product'?(x,y)=>x*y:id==='bowl'?(x,y)=>x*x+y*y:(x,y)=>2+Math.sin(k*Math.PI*x)*Math.cos(k*Math.PI*y);}
+ const upper=(region,x)=>region==='triangle'?x:region==='parabola'?x*x:1;
+ function doubleIntegral(f,region,n,rule='midpoint'){
+  let total=0;const dx=1/n;
+  if(rule==='gauss'){const [z,w]=gn[4];for(let i=0;i<n;i++)for(let j=0;j<4;j++){const x=(i+.5)*dx+dx/2*z[j],hi=upper(region,x),dy=hi/n;for(let p=0;p<n;p++)for(let q=0;q<4;q++){const y=(p+.5)*dy+dy/2*z[q];total+=dx/2*w[j]*dy/2*w[q]*f(x,y);}}return total;}
+  for(let i=0;i<n;i++){const x=(i+.5)*dx,dy=upper(region,x)/n;for(let j=0;j<n;j++)total+=f(x,(j+.5)*dy)*dx*dy;}
+  return total;
+ }
+ function surfaceReference(id,k,region){
+  const exact={rectangle:{plane:1,product:.25,bowl:2/3},triangle:{plane:.5,product:1/8,bowl:1/3},parabola:{plane:.35,product:1/12,bowl:26/105}};
+  if(exact[region]?.[id]!==undefined)return {value:exact[region][id],exact:true};
+  if(region==='rectangle'){const w=k*Math.PI;return {value:2+(1-Math.cos(w))*Math.sin(w)/(w*w),exact:true};}
+  return {value:doubleIntegral(surface(id,k),region,48,'gauss'),exact:false};
+ }
+ const improperInfo=[{id:'rational',name:'∫₀∞ 1/(1+x²) dx'},{id:'tail',name:'∫₀∞ x/(1+x⁴) dx'},{id:'singular',name:'∫₀¹ x^(−α) dx'}];
+ function improper(id,alpha=.5){
+  if(id==='singular'&&!(alpha>0&&alpha<1))throw Error('此平滑化公式要求 0<α<1；α≥1 時原積分發散。');
+  if(id==='singular')return {f:x=>x**(-alpha),g:()=>1/(1-alpha),a:0,b:1,exact:1/(1-alpha),transform:'x = u^(1/(1−α))；dx = u^(α/(1−α))/(1−α) du',formula:'x^(−α) dx = 1/(1−α) du',condition:'0<α<1 時可積；α≥1 時這個瑕積分發散。',xlabel:'u'};
+  if(id==='tail')return {f:x=>x/(1+x**4),g:t=>t*(1-t)/(t**4+(1-t)**4),a:0,b:1,exact:Math.PI/4,transform:'x=t/(1−t)，dx=dt/(1−t)²',formula:'g(t)=t(1−t)/[t⁴+(1−t)⁴]',condition:'兩端極限皆為 0；代換後在 [0,1] 平滑。',xlabel:'t'};
+  return {f:x=>1/(1+x*x),g:t=>1/(t*t+(1-t)**2),a:0,b:1,exact:Math.PI/2,transform:'x=t/(1−t)，dx=dt/(1−t)²',formula:'g(t)=1/[t²+(1−t)²]',condition:'兩端極限皆為 1；未化簡式的 0/0 不等於積分發散。',xlabel:'t'};
+ }
+ return {functionInfo,fn,taylor,nodes,interpolate,diff,integrate,gn,romberg,rootInfo,rootModel,rootTrace,surfaceInfo,surface,upper,doubleIntegral,surfaceReference,improperInfo,improper};
+})();
+if(typeof module!=='undefined'&&module.exports)module.exports=MathLab;
+
+'use strict';
+const LabPlots=(()=>{
+ let uid=0;
+ const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ const fmt=(n,d=8)=>!Number.isFinite(n)?'—':n===0?'0':Math.abs(n)<1e-5||Math.abs(n)>=1e7?n.toExponential(3):String(Number(n.toFixed(d)));
+ function range(values,zero=true){const v=values.filter(Number.isFinite);if(!v.length)return[-1,1];let a=Math.min(...v),b=Math.max(...v);if(zero){a=Math.min(a,0);b=Math.max(b,0);}const span=Math.max(b-a,.1);return[a-.1*span,b+.12*span];}
+ function sample(f,a,b,n=200){return Array.from({length:n+1},(_,i)=>{const x=a+(b-a)*i/n;return[x,f(x)];});}
+ function svg(el,o){
+  const width=Math.max(220,Math.round(el.getBoundingClientRect().width)||550),height=o.height||285,p={l:49,r:18,t:26,b:41},w=width-p.l-p.r,h=height-p.t-p.b;
+  const [xmin,xmax]=o.x,[ymin,ymax]=o.y,X=x=>p.l+(x-xmin)/(xmax-xmin)*w,Y=y=>height-p.b-(y-ymin)/(ymax-ymin)*h;
+  const cs=getComputedStyle(document.body),col=name=>cs.getPropertyValue('--'+(name||'blue')).trim();
+  const clip='klab-'+(++uid);let s=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}" width="${width}" height="${height}" role="img" aria-label="${esc(o.label)}"><title>${esc(o.label)}</title><defs><clipPath id="${clip}"><rect x="${p.l}" y="${p.t}" width="${w}" height="${h}"/></clipPath></defs>`;
+  const xt=o.xt||Array.from({length:width<400?4:5},(_,i)=>xmin+i*(xmax-xmin)/((width<400?4:5)-1)),yt=o.yt||Array.from({length:4},(_,i)=>ymin+i*(ymax-ymin)/3);
+  for(const x of xt)s+=`<line x1="${X(x)}" x2="${X(x)}" y1="${p.t}" y2="${height-p.b}" stroke="${col('line')}" stroke-width=".7"/><text x="${X(x)}" y="${height-p.b+20}" text-anchor="middle" fill="${col('muted')}" font-size="11.5">${esc(fmt(x,2))}</text>`;
+  for(const y of yt)s+=`<line x1="${p.l}" x2="${width-p.r}" y1="${Y(y)}" y2="${Y(y)}" stroke="${col('line')}" stroke-width=".7"/><text x="${p.l-8}" y="${Y(y)+4}" text-anchor="end" fill="${col('muted')}" font-size="11.5">${esc(fmt(y,2))}</text>`;
+  const path=pts=>{let d='',connected=false;for(const [x,y] of pts){if(!Number.isFinite(y)||!Number.isFinite(x)){connected=false;continue;}const yy=Math.max(ymin-20*(ymax-ymin),Math.min(ymax+20*(ymax-ymin),y));d+=`${connected?'L':'M'}${X(x).toFixed(2)},${Y(yy).toFixed(2)} `;connected=true;}return d;};
+  s+=`<g clip-path="url(#${clip})">`;
+  for(const fill of o.fills||[])s+=`<path d="${path(fill.points)}Z" fill="${col(fill.color||'teal')}" opacity="${fill.opacity||.12}"/>`;
+  if(ymin<0&&ymax>0)s+=`<line x1="${p.l}" x2="${width-p.r}" y1="${Y(0)}" y2="${Y(0)}" stroke="${col('muted')}" stroke-width="1"/>`;
+  for(const c of o.curves||[]){const pts=c.points||sample(c.fn,c.a??xmin,c.b??xmax,250);s+=`<path d="${path(pts)}" fill="none" stroke="${col(c.color)}" stroke-width="${c.width||2.1}" ${c.dash?'stroke-dasharray="5 4"':''}/>`;}
+  for(const seg of o.segments||[])s+=`<path d="${path([[seg.x1,seg.y1],[seg.x2,seg.y2]])}" fill="none" stroke="${col(seg.color||'orange')}" stroke-width="${seg.width||1.5}" ${seg.dash?'stroke-dasharray="4 4"':''}/>`;
+  for(const a of o.points||[])if(Number.isFinite(a.x)&&Number.isFinite(a.y))s+=`<circle cx="${X(a.x)}" cy="${Y(a.y)}" r="${a.radius||3.4}" fill="${col(a.color||'orange')}"><title>${esc(a.tip||`x=${fmt(a.x)}, y=${fmt(a.y)}`)}</title></circle>`;
+  s+='</g>';
+  for(const a of o.points||[])if(a.label&&a.x>=xmin&&a.x<=xmax&&a.y>=ymin&&a.y<=ymax){const nearRight=X(a.x)>width-100;s+=`<text x="${X(a.x)+(nearRight?-8:8)}" y="${Math.max(p.t+12,Y(a.y)-9)}" fill="${col(a.color||'orange')}" text-anchor="${nearRight?'end':'start'}" font-size="11.5">${esc(a.label)}</text>`;}
+  s+=`<text x="${width-p.r}" y="${height-4}" text-anchor="end" fill="${col('muted')}" font-size="11.5">${esc(o.xlabel||'x')}</text><text x="${p.l}" y="15" fill="${col('muted')}" font-size="11.5">${esc(o.ylabel||'f(x)')}</text></svg>`;el.innerHTML=s;
+ }
+ function surface(canvas,model,settings){
+  const box=canvas.getBoundingClientRect(),width=Math.max(220,box.width),height=box.height||355,dpr=Math.min(window.devicePixelRatio||1,2);
+  if(canvas.width!==Math.round(width*dpr)||canvas.height!==Math.round(height*dpr)){canvas.width=Math.round(width*dpr);canvas.height=Math.round(height*dpr);}
+  const c=canvas.getContext('2d');c.setTransform(dpr,0,0,dpr,0,0);c.clearRect(0,0,width,height);
+  const cs=getComputedStyle(document.body),color=n=>cs.getPropertyValue('--'+n).trim(),dark=document.body.classList.contains('dark');
+  c.fillStyle=color('surface');c.fillRect(0,0,width,height);
+  const f=model.f,hi=x=>MathLab.upper(model.region,x);let zmax=0;
+  for(let i=0;i<=20;i++)for(let j=0;j<=20;j++)zmax=Math.max(zmax,Math.abs(f(i/20,hi(i/20)*j/20)));
+  zmax=Math.max(zmax,.1);
+  const yaw=settings.yaw*Math.PI/180,pitch=settings.pitch*Math.PI/180,zoom=settings.zoom||1,scale=Math.min(width*.63,height*.72)*zoom;
+  function project([x,y,z]){
+   const u=x-.5,v=y-.5,zz=z/zmax*.88,rx=u*Math.cos(yaw)-v*Math.sin(yaw),ry=u*Math.sin(yaw)+v*Math.cos(yaw),up=zz*Math.cos(pitch)-ry*Math.sin(pitch),depth=ry*Math.cos(pitch)+zz*Math.sin(pitch),perspective=4/(4-depth);
+   return {x:width*.5+rx*scale*perspective,y:height*.64-up*scale*perspective,depth};
+  }
+  function poly(pts,fill,stroke,alpha=1){const q=pts.map(project);c.beginPath();q.forEach((p,i)=>i?c.lineTo(p.x,p.y):c.moveTo(p.x,p.y));c.closePath();c.globalAlpha=alpha;c.fillStyle=fill;c.fill();if(stroke){c.strokeStyle=stroke;c.lineWidth=.45;c.stroke();}c.globalAlpha=1;}
+  function seg(a,b,col,lw=1){const p=project(a),q=project(b);c.beginPath();c.moveTo(p.x,p.y);c.lineTo(q.x,q.y);c.strokeStyle=col;c.lineWidth=lw;c.stroke();}
+  for(let i=0;i<=4;i++){const t=i/4;seg([t,0,0],[t,1,0],color('line'),.7);seg([0,t,0],[1,t,0],color('line'),.7);}
+  const domain=[[0,0,0],[1,0,0],[1,hi(1),0],...Array.from({length:33},(_,i)=>{const x=1-i/32;return[x,hi(x),0];})];poly(domain,color('teal'),null,.08);
+  const faces=[],mesh=24;
+  for(let i=0;i<mesh;i++)for(let j=0;j<mesh;j++){
+   const x0=i/mesh,x1=(i+1)/mesh,y00=hi(x0)*j/mesh,y01=hi(x0)*(j+1)/mesh,y10=hi(x1)*j/mesh,y11=hi(x1)*(j+1)/mesh;
+   const pts=[[x0,y00,f(x0,y00)],[x1,y10,f(x1,y10)],[x1,y11,f(x1,y11)],[x0,y01,f(x0,y01)]],z=pts.reduce((a,p)=>a+p[2],0)/4;
+   faces.push({pts,z,kind:'surface',depth:pts.reduce((a,p)=>a+project(p).depth,0)/4});
+  }
+  if(settings.columns){const n=model.n,dx=1/n;for(let i=0;i<n;i++){const x0=i*dx,x1=(i+1)*dx,x=(x0+x1)/2,dy=hi(x)/n;for(let j=0;j<n;j++){const y0=j*dy,y1=(j+1)*dy,z=f(x,(y0+y1)/2);for(const [pts,kind] of [[[[x0,y0,z],[x1,y0,z],[x1,y1,z],[x0,y1,z]],'top'],[[[x0,y0,0],[x1,y0,0],[x1,y0,z],[x0,y0,z]],'side'],[[[x1,y0,0],[x1,y1,0],[x1,y1,z],[x1,y0,z]],'side'],[[[x0,y1,0],[x1,y1,0],[x1,y1,z],[x0,y1,z]],'back']])faces.push({pts,z,kind,depth:pts.reduce((a,p)=>a+project(p).depth,0)/4});}}}
+  faces.sort((a,b)=>a.depth-b.depth);
+  for(const face of faces){const t=Math.max(0,Math.min(1,face.z/zmax));let fill,alpha=1;
+   if(face.kind==='surface'){fill=`hsl(${207-37*t} ${dark?48:45}% ${dark?38+20*t:84-43*t}%)`;alpha=settings.columns?.24:.93;}
+   else if(face.kind==='top')fill=dark?'#459caa':'#75adba';else fill=face.kind==='side'?(dark?'#285f76':'#a4c5d1'):(dark?'#2e7282':'#c4dce3');
+   poly(face.pts,fill,dark?'#3d6679':'#d3e3e9',alpha);
+  }
+  const slice=settings.slice;
+  for(let j=0;j<40;j++){const y0=hi(slice)*j/40,y1=hi(slice)*(j+1)/40;seg([slice,y0,f(slice,y0)],[slice,y1,f(slice,y1)],color('orange'),2.5);}
+  seg([slice,0,0],[slice,hi(slice),0],color('orange'),2);seg([slice,hi(slice),0],[slice,hi(slice),f(slice,hi(slice))],color('orange'),1);
+  seg([0,0,0],[1.08,0,0],color('muted'),1.1);seg([0,0,0],[0,1.08,0],color('muted'),1.1);seg([0,0,0],[0,0,zmax*1.12],color('muted'),1.1);
+  c.fillStyle=color('ink');c.font='12px "Microsoft JhengHei",sans-serif';
+  for(const [label,pos] of [['x',[1.12,0,0]],['y',[0,1.12,0]],['z',[0,0,zmax*1.17]]]){const p=project(pos);c.fillText(label,Math.max(10,Math.min(width-15,p.x)),Math.max(15,Math.min(height-10,p.y)));}
+  c.font='10.5px "Microsoft JhengHei",sans-serif';c.fillStyle=color('muted');for(const z of [0,zmax/2,zmax]){const p=project([0,0,z]);c.fillText(fmt(z,2),p.x-27,p.y+3);}
+  c.fillText('x, y：0 → 1',12,height-13);
+  return {zmax};
+ }
+ return {esc,fmt,range,sample,svg,surface};
+})();
+</script><script>'use strict';
+const lessons=[
+ {id:'taylor',label:'函數與 Taylor',en:'LOCAL APPROXIMATION',title:'用局部多項式，看懂一條曲線',intro:'選擇函數、展開點與階數，觀察 Taylor 多項式在哪裡貼近原函數，以及離開展開點後誤差如何改變。',idea:'把函數在某一點的值與各階導數，組成以該點為中心的多項式。階數增加，改善的是局部近似；不保證整個區間都更好。',equation:'P<sub>m</sub>(x)=Σ<sub>j=0</sub><sup>m</sup> f<sup>(j)</sup>(x₀)(x−x₀)<sup>j</sup>/j!',source:'Taylor 講義 Note #1；0923week3.xlsm。',cards:[
+ ['為什麼用 Taylor？','<p>直接計算原函數可能困難，但在一個已知點附近，函數值、斜率與彎曲程度就能描述主要形狀。零階是一條水平線，一階是切線，二階開始表現曲率。</p><p>展開點 x₀ 是局部資訊的中心。移動 x₀ 之後，多項式的係數也必須跟著重算。</p>'],
+ ['階數、項數與餘項','<p>m 階多項式保留到 (x−x₀)ᵐ，通常包含 m+1 個冪次；某些導數為零時，非零項可能更少。</p><div class="math">f(x)=P<sub>m</sub>(x)+f<sup>(m+1)</sup>(ξ)(x−x₀)<sup>m+1</sup>/(m+1)!</div><p>若高階導數在鄰域內有界，才可利用餘項估計局部誤差。</p>'],
+ ['有限階近似與無窮級數','<p>任一有限階 Taylor 多項式都可以代入 x，但把階數一直增加，是否會收斂回原函數，是另一個問題。</p><p>exp、sin、cos 的 Taylor 級數在所有有限 x 都收斂。Runge 函數與對數則有有限收斂半徑；超出半徑時，提高階數可能讓誤差更大。</p>'],
+ ['怎麼讀誤差圖？','<p>右圖固定目前觀察點 x，逐一計算 0 到 14 階的 |Pₘ(x)−f(x)|。它比較同一位置、不同階數的真實計算差。</p><p>當誤差已接近浮點精度，曲線不一定繼續下降。這時顯示更多小數，無法增加實際資訊。</p>']
+ ]},
+ {id:'roots',label:'求根的幾何',en:'ROOT FINDING',title:'零點、切線與逐步收斂',intro:'比較二分、牛頓與割線的幾何更新。改變函數或初值，觀察每一步的位置與收斂路徑。',idea:'把未知位置寫成 f(x)=0。二分法縮小保留區間；牛頓與割線利用局部線性模型預測下一個位置。',equation:'牛頓：x<sub>k+1</sub>=x<sub>k</sub>−f(x<sub>k</sub>)/f′(x<sub>k</sub>)',source:'Roots 講義 Note #2；0909week1.xlsm、0916week2.xlsm。',cards:[
+ ['二分法的保證從哪裡來？','<p>連續函數在區間兩端異號時，介值定理保證至少有一個根。取中點後，保留仍異號的一半。</p><div class="math">中點位置誤差 ≤ (b−a)/2</div><p>這是位置的區間上界。異號若跨過不連續點，不能拿來當作有根保證。</p>'],
+ ['切線與割線','<p>牛頓法把目前位置的切線延長到 x 軸；割線法使用最近兩個估計點的連線。兩者都把曲線暫時視為直線。</p><div class="math">割線：x新=x₁−f(x₁)(x₁−x₀)/(f(x₁)−f(x₀))</div><p>假位法也使用割線交點，但更新時維持異號區間；它與這裡的割線法保留點規則不同。</p>'],
+ ['殘差不是位置誤差','<p>殘差 |f(xₖ)| 描述函數值離零有多近；位置誤差 |xₖ−r| 描述估計點離指定根多遠。兩者單位和意義都不同。</p><p>曲線很平時，小殘差仍可能對應較大位置誤差。若函數有多根，牛頓法也可能找到另一個根。</p>'],
+ ['初值與失敗訊號','<p>導數接近零，可能讓牛頓更新步伐很大；割線兩點函數值接近時，分母也會失去穩定性。先畫圖、縮小區間，再使用快速方法，通常較容易控制。</p><p>圖中的「指定參考根」會清楚列出。收斂到其他根時，殘差可能很小，但與這個參考根的距離仍不小。</p>']
+ ]},
+ {id:'interpolation',label:'內插與節點',en:'INTERPOLATION',title:'資料點如何決定一條多項式',intro:'切換等距與 Chebyshev 節點，改變多項式次數，直接觀察曲線與節點間的誤差。',idea:'內插多項式要通過所有給定資料點。節點位置和次數會影響區間內的行為，增加點數不一定讓整條曲線更準。',equation:'P(x)=Σ<sub>i</sub> yᵢ ∏<sub>j≠i</sub> (x−xⱼ)/(xᵢ−xⱼ)',source:'Poly interpolation 講義 Note #5；0930week4.xlsm。Chebyshev 節點為補充比較。',cards:[
+ ['存在與唯一性','<p>m 個相異 x 節點，決定唯一的至多 m−1 次內插多項式。這個次數限制不可省略；任意更高次多項式並不唯一。</p><p>先用每個原節點回代，確認 P(xᵢ)=yᵢ，再使用模型做微分或積分。</p>'],
+ ['Lagrange 和 Newton','<p>Lagrange 直接疊加各節點的基底多項式；Newton 則透過差商逐階建立。對同一組相異節點，理論上是相同多項式的不同表示。</p><p>本互動使用等價的重心形式求值，讓改變節點數時仍能穩定繪製；它沒有改變內插模型。</p>'],
+ ['Runge 現象與節點選擇','<p>對 1/(1+25x²)，高次等距內插可能在端點附近產生明顯振盪。這反映節點與全域多項式模型的限制。</p><p>Chebyshev 節點在端點較密集，常能減輕這種振盪。它是節點設計的比較，不是所有函數都必然改善的保證。</p>'],
+ ['模型誤差與計算誤差','<p>節點處完全吻合，不代表節點之間也吻合。若對內插曲線積分，精確算出的是模型 P 的面積；原函數仍可能有模型誤差。</p><p>畫面列出的最大誤差來自有限取樣網格，不是經過數學證明的連續區間誤差上界。超出資料區間的查詢則屬於外插。</p>']
+ ]},
+ {id:'differentiation',label:'微分與誤差',en:'FINITE DIFFERENCES',title:'步長縮小，誤差為什麼會轉彎',intro:'選函數、觀察位置與差分公式，調整 h。右圖直接以目前瀏覽器的浮點計算，比較步長與誤差。',idea:'差分用附近點的函數值近似導數。小 h 能減少截斷誤差，卻也可能放大相近數相減造成的捨入誤差。',equation:'中央差分：D(h)=[f(x+h)−f(x−h)]/(2h)',source:'Derivatives 講義 Note #9；Taylor 講義；1014week5.xlsm。',cards:[
+ ['從割線到切線','<p>前向差分取 x 與 x+h；中央差分取 x−h 與 x+h。兩側對稱能消掉 Taylor 展開的部分誤差項。</p><div class="math">前向 O(h)；中央 O(h²)<br>五點中央 O(h⁴)</div><p>此處的階數描述足夠平滑且 h 適當時的截斷誤差。</p>'],
+ ['Richardson 消去主誤差','<p>若 D(h)=f′(x)+Ch²+O(h⁴)，把 h 減半後的結果乘以 4，再減去 D(h)，就能消去 Ch²。</p><div class="math">Dᴿ=[4D(h/2)−D(h)]/3</div><p>當捨入誤差主導時，外推不會自動恢復正確導數。</p>'],
+ ['圖上的誤差是怎麼來的？','<p>這些函數的解析導數已知，所以可直接比較 |數值導數−解析導數|。右圖的橫軸與縱軸都是 log₁₀，顯示的是實際運算結果。</p><p>不同函數、位置與電腦精度會有不同的最佳步長。圖形不一定是平滑的標準 U 形。</p>'],
+ ['定義域與端點','<p>差分公式需要所有指定取樣點都有定義。五點中央公式需要 x±h 與 x±2h，範圍比三點中央更大。</p><p>若取樣點越過對數等函數的定義域，應改公式或位置；不能把無法求值的點設成零。</p>']
+ ]},
+ {id:'integration',label:'積分與外推',en:'NUMERICAL QUADRATURE',title:'從面積近似，到誤差消去',intro:'切換函數與積分方法，改變上下限、分段數，觀察近似圖形與收斂速度。',idea:'用有限個取樣值和權重近似積分。增加分段、提高局部多項式階數與使用外推，是不同的改善方式。',equation:'梯形：Tₙ=h[f(a)/2+Σ f(a+ih)+f(b)/2]',source:'Integration 講義 Note #10；1021week6.xlsm。',cards:[
+ ['直線與拋物線','<p>梯形法在每段用直線取代曲線；Simpson 1/3 每兩小段用一條拋物線。因此 Simpson 的總小區間數 n 必須是偶數。</p><p>平滑函數下，複合梯形的整體誤差為 O(h²)，Simpson 1/3 為 O(h⁴)。階數不代表每一個粗網格都立即符合誤差倍率。</p>'],
+ ['Gauss 的節點與倍率','<p>q 點 Gauss-Legendre 在標準 [-1,1] 同時選擇節點與權重，能對至多 2q−1 次多項式精確積分。</p><div class="math">x=m+rt，m=(a+b)/2，r=(b−a)/2<br>I≈r Σ wᵢf(m+rtᵢ)</div><p>這裡 n 是小區間數，q 是每段節點數。兩者不可混用。</p>'],
+ ['Romberg 的表格','<p>以梯形為第一欄，每列 n 加倍，再消去 h²、h⁴、h⁶ 的主誤差。第 j 欄的倍率為 4ʲ，分母是 4ʲ−1。</p><div class="math">Rₖ,ⱼ=(4ʲRₖ,ⱼ₋₁−Rₖ₋₁,ⱼ₋₁)/(4ʲ−1)</div><p>需要平滑性與適當誤差展開。不能任意把 Gauss 結果塞入同一套梯形外推。</p>'],
+ ['有號積分與精確度','<p>函數在 x 軸下方的部分對積分給負貢獻，因此有號積分不等於幾何總面積。若正負抵消使參考積分為零，相對誤差就不適用。</p><p>本節使用解析原函數給出參考值。近似圖形只是幾何輔助；顯示位數與網格密度本身不能當作精確度證明。</p>']
+ ]},
+ {id:'double',label:'雙重積分與 3D',en:'SURFACE & DOUBLE INTEGRALS',title:'區域、曲面與小體積的加總',intro:'選曲面與積分區域，拖曳旋轉 3D 圖。顯示中點長方柱後，分段數會同時改變小體積的形狀與計算誤差。',idea:'雙重積分把區域上方的函數高度加總。每一小塊以高度乘底面積近似，再讓切分逐步變細。',equation:'I≈ΣᵢΣⱼ f(xᵢ*,yⱼ*) Δx Δyᵢ',source:'Double integral 講義；1028week7.xlsm。3D 投影與曲面比較為補充教學。',cards:[
+ ['先決定底部的區域','<p>二重積分的上下限描述 xy 平面的區域。3D 曲面 z=f(x,y) 則描述該區域上方的高度；區域和 integrand 是兩件事。</p><p>這裡提供正方形、三角形與拋物線邊界。右側 2D 圖顯示固定 x 時，內層 y 從哪裡走到哪裡。</p>'],
+ ['長方柱如何對應公式','<p>每個外層小區間取中點 xᵢ*，再依目前 xᵢ* 的上下界切分 y。每根柱子的高度是 f(xᵢ*,yⱼ*)，體積為高度×Δx×Δyᵢ。</p><p>對曲邊區域，底面也由中點小矩形近似。因此邊緣會呈現階梯形；分段加密後，這些小矩形更接近原區域。</p>'],
+ ['兩層步長要一起看','<p>內層上限若是 x 或 x²，Δyᵢ 會隨外層 x 改變。不能只算一次內層積分後重複使用，也不能只加密外層就忽略內層誤差。</p><p>畫面中 n 同時控制兩個方向，每層 n 個小區間。右圖可觀察同步加密後的誤差下降。</p>'],
+ ['旋轉、縮放與參考值','<p>拖曳或使用視角滑桿只改變觀看方向，不影響積分數值。高度軸會依函數範圍縮放，刻度仍標示原函數高度。</p><p>多項式曲面及正方形上的波面使用解析參考；曲邊波面使用高密度四點 Gauss 交叉核算，標示為「高密度參考差」，不冒充嚴格真誤差。</p>']
+ ]},
+ {id:'improper',label:'瑕積分與代換',en:'IMPROPER INTEGRALS',title:'先處理端點，再談數值精確度',intro:'比較原函數與代換後的函數，並把截斷誤差與離散誤差分開觀察。奇異點的高度無限大，不等於面積一定無限大。',idea:'無窮區間、端點無限大或區間內奇異點，需要先改寫或拆段。代換同時改變函數、微分因子與上下限。',equation:'x=t/(1−t)，dx=dt/(1−t)²',source:'課綱瑕積分單元；1028week7.xlsm；歷屆積分題型的概念整理。',cards:[
+ ['截斷留下兩種誤差','<p>把 ∫₀∞ 改成 ∫₀ᴮ 會留下尾端面積。即使有限區間積分算得很準，仍有截斷誤差。</p><p>固定 n 時，增加 B 也會增大步長；因此不能只把上限改成非常大的數，就認為答案一定準確。</p>'],
+ ['變數代換的三件事','<p>由 x=t/(1−t) 將 [0,∞) 壓到 [0,1)。把 integrand 與 dx/dt 相乘，再計算新端點的極限。</p><p>原式代入端點出現 0/0，可能只是尚未化簡。若代換後極限有限，就能用延拓後的端點值。</p>'],
+ ['可積奇異點與發散','<p>對 ∫₀¹x⁻ᵅ dx，0<α<1 時積分為 1/(1−α)；α≥1 時發散。增加分段數不能把發散的積分變成收斂。</p><div class="math">x=u<sup>1/(1−α)</sup> ⇒ x<sup>−α</sup>dx=du/(1−α)</div><p>這個平滑化到 [0,1] 的推導，限於 α<1。</p>'],
+ ['不要刪掉不方便的節點','<p>把無限大的端點改成零，或只跳過一個取樣點，並沒有控制附近的面積。若奇異點在區間內，應先拆成左右兩個瑕積分，各自確認收斂。</p><p>本節的圖將尖峰超出圖框的部分裁切；裁切只是繪圖，不是把積分的那一段刪掉。</p>']
+ ]}
+];
+</script><script>'use strict';
+(()=>{
+ const M=MathLab,P=LabPlots,$=id=>document.getElementById(id),fmt=P.fmt,esc=P.esc;
+ const initial={
+  taylor:{fid:'exp',k:1,a:-1,b:1,x0:0,m:4,q:.5,wide:false},
+  roots:{rid:'cubic',c:2,method:'newton',a:1.5,b:2,step:0},
+  interpolation:{fid:'runge',k:25,a:-1,b:1,degree:8,kind:'uniform',q:.35,wide:true},
+  differentiation:{fid:'sin',k:1,a:0,b:2,x0:1,hpow:-2,method:'central'},
+  integration:{fid:'runge',k:1,a:0,b:1,method:'trap',npow:3},
+  double:{sid:'wave',k:1.5,region:'rectangle',n:6,slice:.5,yaw:-38,pitch:32,zoom:1,columns:true},
+  improper:{iid:'rational',alpha:.5,npow:4,B:6,epspow:-3}
+ };
+ const states=JSON.parse(JSON.stringify(initial));let active='taylor',surfaceCache=null,frame=0;
+ const controls={
+  select:(key,title,options,value)=>`<label>${title}<select data-key="${key}">${options.map(([v,t])=>`<option value="${v}" ${v===value?'selected':''}>${t}</option>`).join('')}</select></label>`,
+  range:(key,title,value,min,max,step=1)=>`<label>${title}<output data-output="${key}"></output><input data-key="${key}" type="range" value="${value}" min="${min}" max="${max}" step="${step}"></label>`,
+  number:(key,title,value,min=-5,max=5,step=.1)=>`<label>${title}<input data-key="${key}" type="number" value="${value}" min="${min}" max="${max}" step="${step}"></label>`,
+  check:(key,title,value)=>`<label class="check-label"><input data-key="${key}" type="checkbox" ${value?'checked':''}>${title}</label>`
+ };
+ const legend=(entries)=>`<div class="legend">${entries.map(([text,color,dash])=>`<span class="${dash?'dash':''}" style="--swatch:var(--${color||'blue'})">${text}</span>`).join('')}</div>`;
+ const panel=(title,id,desc='',entries=[])=>`<section class="plot-panel"><h2>${title}</h2>${desc?`<p class="subtle">${desc}</p>`:''}${legend(entries)}<div class="plot" id="${id}"></div><p class="caption" id="${id}-caption"></p></section>`;
+ function metricHTML(items){return `<div class="metric-row ${items.length===4?'four':''}">${items.map(([label,value,note])=>`<div class="metric"><span>${label}</span><strong>${typeof value==='number'?fmt(value,10):value}</strong>${note?`<small>${note}</small>`:''}</div>`).join('')}</div>`;}
+ function metrics(items){$('metrics').innerHTML=metricHTML(items);}
+ function baseFunctionControls(s,limits=true){const info=M.functionInfo.find(f=>f.id===s.fid),prefix=active==='integration'?'積分':active==='interpolation'?'資料':'繪圖';return controls.select('fid','函數',M.functionInfo.map(f=>[f.id,f.name]),s.fid)+controls.range('k','函數參數 k',s.k,info.min,info.max,info.step)+(limits?controls.number('a',prefix+'下限 a',s.a)+controls.number('b',prefix+'上限 b',s.b):'');}
+ function buildControls(){const s=states[active];let h='';
+  if(active==='taylor')h=baseFunctionControls(s)+controls.range('x0','展開點 x₀',s.x0,s.a,s.b,.02)+controls.range('m','多項式階數 m',s.m,0,14)+controls.range('q','觀察位置 x',s.q,s.a,s.b,.02)+controls.check('wide','縱軸納入近似值',s.wide);
+  else if(active==='interpolation')h=baseFunctionControls(s)+controls.select('kind','節點分布',[['uniform','等距節點'],['chebyshev','Chebyshev 節點']],s.kind)+controls.range('degree','多項式次數',s.degree,1,18)+controls.range('q','觀察位置 x',s.q,s.a-.2*(s.b-s.a),s.b+.2*(s.b-s.a),.02)+controls.check('wide','縱軸納入內插曲線',s.wide);
+  else if(active==='differentiation')h=baseFunctionControls(s,false)+controls.number('x0','微分位置 x',s.x0)+controls.select('method','差分公式',[['forward','前向 O(h)'],['central','中央 O(h²)'],['five','五點中央 O(h⁴)'],['richardson','Richardson 外推']],s.method)+controls.range('hpow','步長 h',s.hpow,-12,-.2,.1);
+  else if(active==='integration')h=baseFunctionControls(s)+controls.select('method','積分方法',[['trap','複合梯形'],['simpson','Simpson 1/3'],['gauss3','三點 Gauss'],['romberg','Romberg 外推']],s.method)+controls.range('npow','分段數 n',s.npow,1,7)+`<p class="control-note">這裡 n 是小區間數。參考積分由所選函數的解析原函數計算；正負面積會相互抵消。</p>`;
+  else if(active==='roots'){
+   const info=M.rootInfo.find(f=>f.id===s.rid);h=controls.select('rid','零點方程 f(x)=0',M.rootInfo.map(f=>[f.id,f.name+'=0']),s.rid)+controls.range('c','函數參數 c',s.c,info.min,info.max,.1)+controls.select('method','求根方法',[['newton','牛頓法'],['bisection','二分法'],['secant','割線法']],s.method)+controls.number('a',s.method==='bisection'?'區間下限 a':'初始位置 x₀',s.a)+ (s.method==='newton'?'':controls.number('b',s.method==='bisection'?'區間上限 b':'初始第二點 x₁',s.b))+controls.range('step','顯示到第 k 步',s.step,0,14)+`<div class="control-actions"><button type="button" id="prev-step">上一步</button><button type="button" id="next-step" class="primary">下一步</button></div>`;
+  }else if(active==='double')h=controls.select('sid','曲面 z=f(x,y)',M.surfaceInfo.map(f=>[f.id,f.name]),s.sid)+controls.select('region','xy 平面積分區域',[['rectangle','正方形：0≤y≤1'],['triangle','三角形：0≤y≤x'],['parabola','拋物線：0≤y≤x²']],s.region)+controls.range('k','波面參數 k',s.k,.5,4,.1)+controls.range('n','每層分段 n',s.n,2,24)+controls.range('slice','固定外層 x',s.slice,0,1,.01)+controls.range('yaw','左右視角',s.yaw,-180,180)+controls.range('pitch','俯視角度',s.pitch,15,75)+controls.check('columns','顯示中點長方柱',s.columns)+`<p class="control-note">區域的外層均為 0≤x≤1。滑鼠或觸控拖曳 3D 圖可旋轉；視角不影響積分。k 只影響波面函數。</p>`;
+  else h=controls.select('iid','原始瑕積分',M.improperInfo.map(f=>[f.id,f.name]),s.iid)+controls.range('npow','每段取樣分段 n',s.npow,1,7)+(s.iid==='singular'?controls.range('alpha','奇異指數 α',s.alpha,.1,1.3,.05)+controls.range('epspow','截去端點長度 ε',s.epspow,-8,-1,.1):controls.range('B','直接截斷上限 B',s.B,1,30,.5));
+  $('controls').innerHTML=h;
+  $('controls').querySelectorAll('[data-key]').forEach(el=>el.addEventListener(el.tagName==='SELECT'?'change':'input',()=>{
+   const key=el.dataset.key;s[key]=el.type==='checkbox'?el.checked:el.tagName==='SELECT'?el.value:Number(el.value);
+   if(key==='fid'){const i=M.functionInfo.find(f=>f.id===s.fid);Object.assign(s,{k:i.k,a:i.a,b:i.b});if('x0'in s)s.x0=i.x0;if('q'in s)s.q=active==='interpolation'?i.a+.675*(i.b-i.a):Math.min(i.b,i.x0+.25*(i.b-i.a));buildControls();}
+   else if(key==='rid'){const i=M.rootInfo.find(f=>f.id===s.rid);Object.assign(s,{c:i.c,a:s.method==='newton'?i.x0:i.a,b:i.b,step:0});buildControls();}
+   else if(active==='roots'&&key==='method'){const i=M.rootInfo.find(f=>f.id===s.rid);Object.assign(s,{a:s.method==='newton'?i.x0:i.a,b:i.b,step:0});buildControls();}
+   else if(key==='iid')buildControls();
+   else if(['a','b'].includes(key)&&active!=='roots'&&s.a<s.b){if('x0'in s){s.x0=Math.max(s.a,Math.min(s.b,s.x0));const x=$('controls').querySelector('[data-key="x0"]');if(x){x.min=s.a;x.max=s.b;x.value=s.x0;}}if('q'in s){const ext=active==='interpolation'?.2*(s.b-s.a):0;s.q=Math.max(s.a-ext,Math.min(s.b+ext,s.q));const x=$('controls').querySelector('[data-key="q"]');x.min=s.a-ext;x.max=s.b+ext;x.value=s.q;}}
+   if(active==='double'&&['yaw','pitch'].includes(key)){updateOutputs();drawSurface();}else draw();
+  }));
+  $('prev-step')?.addEventListener('click',()=>{s.step=Math.max(0,s.step-1);$('controls').querySelector('[data-key="step"]').value=s.step;draw();});
+  $('next-step')?.addEventListener('click',()=>{s.step=Math.min(14,s.step+1);$('controls').querySelector('[data-key="step"]').value=s.step;draw();});
+  updateOutputs();
+ }
+ function updateOutputs(){const s=states[active];$('controls').querySelectorAll('[data-output]').forEach(el=>{const key=el.dataset.output,v=s[key];el.textContent=['npow'].includes(key)?2**v:key==='hpow'?`10^${fmt(v,1)}`:key==='epspow'?`10^${fmt(v,1)}`:['yaw','pitch'].includes(key)?`${Math.round(v)}°`:fmt(v,3);});if(active==='double')$('controls').querySelector('[data-key="k"]').disabled=s.sid!=='wave';}
+ function layout(){
+  let h='';
+  if(active==='taylor')h=`<div class="plot-grid">${panel('原函數與 Taylor 多項式','plot1','移動展開點，係數會一起改變。',[['原函數','blue'],['Taylor 近似','teal'],['觀察點','orange']])}${panel('固定位置：提高階數的誤差','plot2','橫軸為多項式階數 m；縱軸為 log₁₀ 誤差。',[['|Pₘ(x)−f(x)|','teal']])}</div>`;
+  else if(active==='roots')h=`<div class="plot-grid">${panel('本步的幾何更新','plot1','點、更新線與區間都對應目前第 k 步。',[['f(x)','blue'],['目前點／更新線','orange']])}${panel('逐步靠近指定參考根','plot2','位置誤差與殘差分開解讀。',[['log₁₀ |xₖ−r|','teal']])}</div><section class="plot-panel full-panel"><div id="trace" class="table-wrap"></div></section>`;
+  else if(active==='interpolation')h=`<div class="plot-grid">${panel('節點與內插曲線','plot1','觀察點可超出資料區間；超出時屬於外插。',[['原函數','blue'],['內插多項式','teal'],['資料節點','orange']])}${panel('節點之間仍可能有誤差','plot2','誤差取決於整個模型，不只看節點是否吻合。',[['log₁₀ |P(x)−f(x)|','teal']])}</div>`;
+  else if(active==='differentiation')h=`<div class="plot-grid">${panel('差分點與切線','plot1','步長很小時，差分點在圖上幾乎重疊。',[['原函數','blue'],['解析切線','teal',true],['差分取樣／割線','orange']])}${panel('截斷誤差與捨入誤差的競合','plot2','曲線來自瀏覽器實算；無效定義域點不連線。',[['前向','blue'],['中央','teal'],['目前公式','orange']])}</div><section class="plot-panel full-panel"><div id="trace" class="table-wrap"></div></section>`;
+  else if(active==='integration')h=`<div class="plot-grid">${panel('積分近似的幾何','plot1','圖形只表現近似方式；數值使用完整取樣權重。',[['原函數','blue'],['近似／取樣點','orange']])}${panel('分段加密與積分誤差','plot2','橫軸 log₂(n)；每一步讓分段加倍。',[['目前方法誤差','teal']])}</div><section class="plot-panel full-panel" id="romberg-panel" hidden><h2>Romberg 外推表</h2><div id="trace" class="table-wrap"></div></section>`;
+  else if(active==='double')h=`<div class="plot-grid equal"><section class="plot-panel"><h2>可旋轉的 3D 曲面與體積</h2><p class="subtle">拖曳旋轉；橙色為目前固定 x 的切片。</p><div class="canvas-wrap"><canvas id="surface" aria-label="三維函數曲面、目前切片及中點長方柱">三維曲面；詳細積分值與區域請見旁邊的 2D 圖。</canvas></div><p class="caption">曲面網格用於顯示幾何；長方柱底面與高度對應 n×n 中點積分。高度軸依所選曲面縮放。</p></section>${panel('底部區域與內層上下限','plot1','外層 x 固定後，再沿 y 的方向走。',[['上邊界','blue'],['區域','teal'],['目前切片','orange']])}</div><section class="plot-panel full-panel"><h2>加密中點網格後的變化</h2><div class="plot" id="plot2"></div><p class="caption" id="plot2-caption"></p></section>`;
+  else h=`<div class="plot-grid equal">${panel('原函數與直接截斷','plot1','無窮遠不會因為圖只畫一段就消失。',[['原 integrand','blue']])}${panel('代換後的新函數','plot2','函數與微分因子一起化簡，再判斷新端點。',[['新 integrand','teal']])}</div><section class="plot-panel full-panel"><h2 id="improper-error-title">把截斷與離散誤差分開</h2>${legend([['截斷漏掉的面積','orange'],['截後離散誤差','blue']])}<div class="plot" id="plot3"></div><p class="caption" id="plot3-caption"></p></section>`;
+  $('visuals').innerHTML=h+'<div id="metrics"></div>';
+  if(active==='double')bindOrbit();
+ }
+ function select(id,hash=true){const lesson=lessons.find(l=>l.id===id)||lessons[0];active=lesson.id;surfaceCache=null;$('category').textContent=lesson.en;$('title').textContent=lesson.title;$('intro').textContent=lesson.intro;$('idea').textContent=lesson.idea;$('main-equation').innerHTML=lesson.equation;$('source').textContent='來源與延伸：'+lesson.source;$('knowledge-grid').innerHTML=lesson.cards.map(([title,body])=>`<article class="knowledge-card"><h3>${title}</h3>${body}</article>`).join('');$('navigation').querySelectorAll('button').forEach(el=>{if(el.dataset.lesson===active)el.setAttribute('aria-current','page');else el.removeAttribute('aria-current');});buildControls();layout();draw();if(hash)history.replaceState(null,'','#'+active);window.scrollTo({top:0,behavior:'instant'});}
+ function currentFunction(){const s=states[active];if(!(s.a<s.b))throw Error('下限 a 必須小於上限 b。');const model=M.fn(s.fid,s.k);if(!model.valid(s.a)||!model.valid(s.b))throw Error('區間端點不在函數定義域內，請調整函數參數或上下限。');return model;}
+ function draw(){updateOutputs();$('error').hidden=true;try{({taylor:drawTaylor,roots:drawRoots,interpolation:drawInterpolation,differentiation:drawDiff,integration:drawIntegral,double:drawDouble,improper:drawImproper}[active])();}catch(err){$('error').hidden=false;$('error').textContent=err.message;for(const id of ['plot1','plot2','plot3','trace'])if($(id))$(id).replaceChildren();if($('surface'))$('surface').getContext('2d').clearRect(0,0,$('surface').width,$('surface').height);metrics([['目前狀態','需調整參數']]);$('insight').textContent='先修正上方輸入，圖形與數值才會重新計算。';}}
+ const logerr=e=>Number.isFinite(e)?Math.log10(Math.max(Math.abs(e),1e-16)):NaN;
+ function drawTaylor(){const s=states.taylor,model=currentFunction(),poly=M.taylor(model,s.x0,s.m),f=model.f,rows=Array.from({length:15},(_,m)=>[m,logerr(M.taylor(model,s.x0,m).evaluate(s.q)-f(s.q))]),orig=P.sample(f,s.a,s.b),approx=P.sample(poly.evaluate,s.a,s.b),yr=P.range((s.wide?[...orig,...approx]:orig).map(v=>v[1]));
+  P.svg($('plot1'),{x:[s.a,s.b],y:yr,label:'原函數與目前 Taylor 多項式',curves:[{fn:f},{fn:poly.evaluate,color:'teal'}],points:[{x:s.x0,y:f(s.x0),color:'blue',label:'x₀'},{x:s.q,y:poly.evaluate(s.q),color:'orange',label:'Pₘ(x)'}],segments:[{x1:s.q,y1:f(s.q),x2:s.q,y2:poly.evaluate(s.q),color:'orange',width:3}]});
+  P.svg($('plot2'),{x:[0,14],y:P.range(rows.map(v=>v[1]),false),xt:[0,4,8,12,14],label:'固定觀察點下，不同 Taylor 階數的絕對誤差',curves:[{points:rows,color:'teal'}],points:[{x:s.m,y:rows[s.m][1],label:'目前階數'}],xlabel:'階數 m',ylabel:'log₁₀ |誤差|'});
+  const error=Math.abs(poly.evaluate(s.q)-f(s.q));metrics([['原函數 f(x)',f(s.q)],['近似值 Pₘ(x)',poly.evaluate(s.q)],['絕對誤差',error],['級數收斂半徑',Number.isFinite(poly.radius)?fmt(poly.radius,5):'無限','以目前 x₀ 為中心']]);
+  $('plot1-caption').textContent=s.wide?'縱軸包含原函數與近似值；大幅偏離可能讓原函數看起來較平。':'縱軸依原函數設定；超出圖框的近似曲線已裁切，數值與誤差仍使用完整計算。';
+  $('plot2-caption').textContent=`固定 x=${fmt(s.q,3)}，只改變階數。此圖不表示移動觀察點時的誤差。`;
+  $('insight').textContent=Number.isFinite(poly.radius)&&Math.abs(s.q-s.x0)>=poly.radius?`目前 |x−x₀|=${fmt(Math.abs(s.q-s.x0),4)} 已達或超出收斂半徑 ${fmt(poly.radius,4)}。有限階多項式仍能求值，但增加階數不保證靠近原函數。`:s.fid==='poly'&&s.m>=3?'原函數是三次多項式，因此三階以上 Taylor 在實數運算下會重現原函數；剩餘差異主要來自浮點計算。':`目前觀察點距展開點 ${fmt(Math.abs(s.q-s.x0),4)}。先固定這個位置，再看右圖提高階數的效果；也可移動展開點，觀察局部近似如何重新貼合。`;
+ }
+ function drawRoots(){const s=states.roots,model=M.rootModel(s.rid,s.c),trace=M.rootTrace(model,s.method,s.a,s.b,14),idx=Math.min(s.step,Math.max(0,trace.rows.length-1)),r=trace.rows[idx];
+  if(!r)throw Error(trace.message||'沒有可用迭代。');
+  let xmin=Math.min(model.reference-.8,s.a-.2,s.method==='newton'?s.a:s.b-.2),xmax=Math.max(model.reference+.8,s.a+.2,s.method==='newton'?s.a:s.b+.2);xmin=Math.max(-5,xmin);xmax=Math.min(5,xmax);if(!(xmin<xmax))throw Error('初值超出此圖可觀察的範圍。');
+  const ys=P.sample(model.f,xmin,xmax).map(v=>v[1]),yr=P.range(ys),segments=[],points=[{x:r.x,y:r.fx,label:'xₖ'}];
+  if(s.method==='newton'&&r.next!==undefined)segments.push({x1:r.x,y1:r.fx,x2:r.next,y2:0,color:'orange',width:2});
+  if(s.method==='secant'){points.push({x:r.x0,y:r.f0,color:'teal'});segments.push({x1:r.x0,y1:r.f0,x2:r.x,y2:r.fx,color:'orange'});if(r.next!==undefined)segments.push({x1:r.x,y1:r.fx,x2:r.next,y2:0,color:'orange',dash:true});}
+  if(s.method==='bisection'){const yy=yr[0]+.06*(yr[1]-yr[0]);segments.push({x1:r.a,y1:yy,x2:r.b,y2:yy,color:'teal',width:5});}
+  P.svg($('plot1'),{x:[xmin,xmax],y:yr,label:'所選函數的求根幾何與目前迭代',curves:[{fn:model.f}],segments,points});
+  const rows=trace.rows.slice(0,idx+1),errs=rows.map((v,i)=>[i,logerr(v.error)]);P.svg($('plot2'),{x:[0,Math.max(4,idx)],y:P.range(errs.map(v=>v[1]),false),label:'目前已顯示迭代到指定參考根的位置誤差',curves:[{points:errs,color:'teal'}],points:errs.map(([x,y])=>({x,y,color:'teal'})),xlabel:'步數 k',ylabel:'log₁₀ |xₖ−r|'});
+  metrics([['目前 xₖ',r.x],['殘差 |f(xₖ)|',Math.abs(r.fx)],['指定參考根 r',model.reference],['與指定根距離',r.error]]);
+  $('trace').innerHTML=`<table><thead><tr><th>k</th><th>xₖ</th><th>|f(xₖ)|</th><th>|xₖ−r|</th>${s.method==='bisection'?'<th>區間半寬</th>':''}</tr></thead><tbody>${rows.map((v,i)=>`<tr><td>${i}</td><td>${fmt(v.x,10)}</td><td>${fmt(Math.abs(v.fx),10)}</td><td>${fmt(v.error,10)}</td>${s.method==='bisection'?`<td>${fmt((v.b-v.a)/2,10)}</td>`:''}</tr>`).join('')}</tbody></table>`;
+  $('prev-step').disabled=s.step<=0;$('next-step').disabled=idx>=trace.rows.length-1;$('plot2-caption').textContent='只顯示已選到的步數。接近浮點精度時，誤差曲線可能停在繪圖下限。';
+  $('insight').textContent=trace.message&&idx===trace.rows.length-1?trace.message:r.error>1e-5&&Math.abs(r.fx)<1e-10?'目前殘差已很小，但與指定參考根仍有距離；方法可能落到另一個根。請把位置誤差與殘差分開理解。':s.method==='bisection'?`目前保留區間 [${fmt(r.a,6)}, ${fmt(r.b,6)}]，中點到這段內任一根的距離不超過半寬 ${fmt((r.b-r.a)/2,8)}。`:s.method==='newton'?`切線斜率為 ${fmt(r.df,7)}。下一步從切線與 x 軸的交點出發；更新量大或小，本身都不等於已找到正確的根。`:'每輪使用最近兩點形成割線。它不會像二分法那樣維持異號區間，請一起觀察誤差路徑與分母是否變小。';
+ }
+ function drawInterpolation(){const s=states.interpolation,model=currentFunction(),xs=M.nodes(s.a,s.b,s.degree,s.kind),ys=xs.map(model.f),interp=M.interpolate(xs,ys),original=P.sample(model.f,s.a,s.b),approx=P.sample(interp,s.a,s.b),yr=P.range((s.wide?[...original,...approx]:original).map(v=>v[1])),errors=P.sample(x=>logerr(interp(x)-model.f(x)),s.a,s.b,300),rawErrors=P.sample(x=>Math.abs(interp(x)-model.f(x)),s.a,s.b,500),maxerr=Math.max(...rawErrors.map(v=>v[1]));
+  const ext=.2*(s.b-s.a),xrange=[Math.min(s.a,s.q),Math.max(s.b,s.q)];P.svg($('plot1'),{x:xrange,y:yr,label:'原函數、資料節點與完整內插多項式',curves:[{fn:model.f},{fn:interp,color:'teal'}],points:[...xs.map((x,i)=>({x,y:ys[i],color:'orange'})),{x:s.q,y:interp(s.q),color:'teal',label:'P(x)'}]});
+  P.svg($('plot2'),{x:[s.a,s.b],y:P.range(errors.map(v=>v[1]),false),label:'資料區間內插多項式與原函數的絕對誤差',curves:[{points:errors,color:'teal'}],points:xs.map(x=>({x,y:logerr(interp(x)-model.f(x)),color:'orange',radius:2.5})),ylabel:'log₁₀ |P(x)−f(x)|'});
+  metrics([['節點數',xs.length,`至多 ${s.degree} 次多項式`],['觀察位置誤差',Math.abs(interp(s.q)-model.f(s.q))],['網格最大誤差',maxerr,'有限取樣，非嚴格上界'],['節點回代最大差',Math.max(...xs.map((x,i)=>Math.abs(interp(x)-ys[i])))]]);
+  $('plot1-caption').textContent=s.wide?'縱軸含內插曲線；橙點是決定整條多項式的資料點。':'縱軸依原函數設定，超出圖框的內插曲線已裁切。';$('plot2-caption').textContent='節點上誤差接近零，不代表節點之間也接近零。誤差網格與曲線顯示各自取樣。';
+  $('insight').textContent=s.q<s.a||s.q>s.b?`目前 x=${fmt(s.q,3)} 超出節點區間，屬於外插。多項式可以求值，但資料本身不保證外部的準確度。`:s.fid==='runge'&&s.kind==='uniform'?`目前使用 ${xs.length} 個等距節點。對 Runge 函數，提高次數可能讓端點振盪加劇；切換相同次數的 Chebyshev 節點，即可直接比較節點位置的影響。`:`目前 ${s.kind==='uniform'?'等距':'Chebyshev'} 節點決定同一條 ${s.degree} 次以下多項式。注意節點間的誤差曲線，再判斷增加次數是否有幫助。`;
+ }
+ function drawDiff(){
+  const s=states.differentiation,model=M.fn(s.fid,s.k),h=10**s.hpow,x=s.x0;if(!model.valid(x))throw Error('微分位置不在函數定義域內。');
+  const value=M.diff(model,x,h,s.method),exact=model.d(x),span=Math.max(.4,Math.min(1.5,3*h)),a=x-span,b=x+span,orig=P.sample(model.f,a,b),yr=P.range(orig.map(v=>v[1]));
+  const offsets=s.method==='forward'?[0,1]:s.method==='five'?[-2,-1,0,1,2]:s.method==='richardson'?[-1,-.5,0,.5,1]:[-1,0,1],points=offsets.map(t=>({x:x+t*h,y:model.f(x+t*h),color:t===0?'blue':'orange',radius:3})).filter(p=>Number.isFinite(p.y));
+  const seg=s.method==='forward'?{x1:x,y1:model.f(x),x2:x+h,y2:model.f(x+h),color:'orange',width:2}:{x1:x-h,y1:model.f(x-h),x2:x+h,y2:model.f(x+h),color:'orange',width:2};
+  P.svg($('plot1'),{x:[a,b],y:yr,label:'函數、解析切線與差分所需取樣點',curves:[{fn:model.f},{fn:t=>model.f(x)+exact*(t-x),color:'teal',dash:true}],points,segments:Number.isFinite(seg.y1)&&Number.isFinite(seg.y2)?[seg]:[]});
+  const selected=p=>logerr(M.diff(model,x,10**p,s.method)-exact);P.svg($('plot2'),{x:[-12,-.2],y:[-16,1],xt:[-12,-9,-6,-3,0],yt:[-16,-12,-8,-4,0],label:'差分微分的步長與實際絕對誤差',curves:[{fn:p=>logerr(M.diff(model,x,10**p,'forward')-exact)},{fn:p=>logerr(M.diff(model,x,10**p,'central')-exact),color:'teal'},{fn:selected,color:'orange'}],segments:[{x1:s.hpow,y1:-16,x2:s.hpow,y2:1,color:'muted',dash:true}],points:Number.isFinite(selected(s.hpow))?[{x:s.hpow,y:selected(s.hpow),color:'orange'}]:[],xlabel:'log₁₀(h)',ylabel:'log₁₀ |誤差|'});
+  metrics([['目前步長 h',h],['數值導數',Number.isFinite(value)?value:'無法求值'],['解析導數',exact],['絕對誤差',Math.abs(value-exact)]]);
+  $('trace').innerHTML=`<table><thead><tr><th>方法</th><th>數值導數</th><th>絕對誤差</th></tr></thead><tbody>${[['前向','forward'],['中央','central'],['五點中央','five'],['Richardson','richardson']].map(([name,id])=>{const v=M.diff(model,x,h,id);return`<tr><td>${name}</td><td>${fmt(v,11)}</td><td>${fmt(Math.abs(v-exact),11)}</td></tr>`;}).join('')}</tbody></table>`;
+  $('plot1-caption').textContent=s.method==='five'||s.method==='richardson'?'橙色割線用來說明兩側取樣的幾何；目前公式的權重包含更多點，不能只用圖上割線當作數值結果。':'橙色割線連接目前公式的兩側取樣點。h 很小時，圖上幾乎與切線重疊。';
+  $('plot2-caption').textContent='定義域內的有限計算才會連線。曲線若超出上下限會裁切；表格保留目前步長的實際誤差。';
+  $('insight').textContent=!Number.isFinite(value)?'目前公式需要的取樣點超出函數定義域。請減小 h、改變微分位置，或選用單邊公式；不要把缺少的函數值設成零。':`目前 h=${h.toExponential(2)}。解析導數為 ${fmt(exact,9)}，所選公式誤差為 ${fmt(Math.abs(value-exact),11)}。右圖固定函數與位置，單獨改變 h，讓截斷與捨入誤差的影響分開呈現。`;
+ }
+ function integralResult(model,s,n){if(s.method==='romberg')return M.romberg(model.f,s.a,s.b,Math.round(Math.log2(n))).at(-1).at(-1);return M.integrate(model.f,s.a,s.b,n,s.method);}
+ function drawIntegral(){
+  const s=states.integration,model=currentFunction(),n=2**s.npow,h=(s.b-s.a)/n,f=model.f,reference=model.F(s.b)-model.F(s.a),result=integralResult(model,s,n),curves=[{fn:f}],segments=[],points=[],fills=[];
+  if(!Number.isFinite(reference)||!Number.isFinite(result))throw Error('此區間的積分取樣無法求值，請先檢查定義域或瑕積分。');
+  if(['trap','romberg'].includes(s.method))for(let i=0;i<n;i++){const a=s.a+i*h,b=a+h;fills.push({points:[[a,0],[a,f(a)],[b,f(b)],[b,0]],color:'teal'});segments.push({x1:a,y1:f(a),x2:b,y2:f(b),color:'orange'});}
+  else if(s.method==='simpson')for(let i=0;i<n;i+=2){const a=s.a+i*h,m=a+h,b=a+2*h,q=x=>f(a)*(x-m)*(x-b)/((a-m)*(a-b))+f(m)*(x-a)*(x-b)/((m-a)*(m-b))+f(b)*(x-a)*(x-m)/((b-a)*(b-m));curves.push({fn:q,a,b,color:'orange',width:1.6});fills.push({points:[[a,0],...P.sample(q,a,b,16),[b,0]],color:'teal'});}
+  else{fills.push({points:[[s.a,0],...P.sample(f,s.a,s.b),[s.b,0]],color:'teal'});for(let i=0;i<n;i++)for(const z of M.gn[3][0]){const x=s.a+(i+.5)*h+h*z/2;points.push({x,y:f(x),radius:n>16?1.8:3});}}
+  P.svg($('plot1'),{x:[s.a,s.b],y:P.range(P.sample(f,s.a,s.b).map(v=>v[1])),label:'所選積分公式與原函數的幾何近似',curves,segments,points,fills});
+  const epoints=Array.from({length:7},(_,i)=>[i+1,logerr(integralResult(model,s,2**(i+1))-reference)]);P.svg($('plot2'),{x:[1,7],y:P.range(epoints.map(p=>p[1]),false),xt:[1,2,3,4,5,6,7],label:'分段數加倍後，與解析積分值的絕對誤差',curves:[{points:epoints,color:'teal'}],points:[{x:s.npow,y:epoints[s.npow-1][1],label:`n=${n}`}],xlabel:'log₂(n)',ylabel:'log₁₀ |誤差|'});
+  metrics([['數值積分',result],['解析參考',reference],['絕對誤差',Math.abs(result-reference)],['相對誤差',reference===0?'不適用':fmt(Math.abs((result-reference)/reference),10),reference===0?'參考值為零':'分母為 |參考值|']]);
+  $('romberg-panel').hidden=s.method!=='romberg';if(s.method==='romberg'){const rows=M.romberg(f,s.a,s.b,s.npow);$('trace').innerHTML=`<table><thead><tr><th>n</th>${rows.at(-1).map((_,j)=>`<th>${j?'R'+j:'梯形 T'}</th>`).join('')}</tr></thead><tbody>${rows.map((row,i)=>`<tr><td>${2**(i+1)}</td>${Array.from({length:s.npow},(_,j)=>`<td>${j<row.length?fmt(row[j],11):'—'}</td>`).join('')}</tr>`).join('')}</tbody></table>`;}
+  $('plot1-caption').textContent=s.method==='romberg'?'圖上顯示最細一列的梯形；目前數值結果來自外推表右下角。':s.method==='gauss3'?`每小段 3 個內部節點，共 ${3*n} 次取樣；權重與區間半寬都已計入。`:'陰影表現有號積分區域，x 軸下方對積分給負貢獻。';
+  $('plot2-caption').textContent='同一函數、同一積分區間，只改 n。理論精確的多項式或對稱抵消，可能很早就接近浮點下限。';
+  $('insight').textContent=s.method==='romberg'?`目前最細分段 n=${n}，共 ${s.npow} 列外推。向右逐欄消去 h²、h⁴、h⁶ 等主誤差；請看表格索引與倍率一起變化。`:reference===0?'這個區間的解析積分為零，可能來自奇偶對稱的正負抵消。因此只顯示絕對誤差，不把相對誤差設成零。':`目前分段 n=${n}，步長 h=${fmt(h,6)}。切換不同方法時，圖形、取樣方式與誤差曲線會一起改變；不能只用節點個數推斷準確度。`;
+ }
+ function drawDouble(){
+  const s=states.double,key=[s.sid,s.k,s.region,s.n].join('|');
+  if(!surfaceCache||surfaceCache.key!==key){const f=M.surface(s.sid,s.k),reference=M.surfaceReference(s.sid,s.k,s.region),result=M.doubleIntegral(f,s.region,s.n),ns=[...new Set([2,4,8,12,16,24,s.n])].sort((a,b)=>a-b),errors=ns.map(n=>[Math.log2(n),logerr(M.doubleIntegral(f,s.region,n)-reference.value)]);surfaceCache={key,f,reference,result,ns,errors,region:s.region,n:s.n};}
+  const model=surfaceCache,hi=x=>M.upper(s.region,x),areaPoints=[[0,0],[1,0],[1,hi(1)],...Array.from({length:101},(_,i)=>{const x=1-i/100;return[x,hi(x)];})];
+  drawSurface();P.svg($('plot1'),{x:[0,1.06],y:[0,1.1],xt:[0,.25,.5,.75,1],yt:[0,.25,.5,.75,1],label:'雙重積分區域與目前固定外層 x 的切片',curves:[{fn:hi,a:0,b:1}],fills:[{points:areaPoints,color:'teal'}],segments:[{x1:s.slice,y1:0,x2:s.slice,y2:hi(s.slice),color:'orange',width:4}],ylabel:'y'});
+  $('plot1-caption').textContent=`目前 x=${fmt(s.slice,3)}，內層 y 從 0 到 ${fmt(hi(s.slice),5)}；使用中點分段時，內層 Δy 由目前外層中點重新計算。`;
+  P.svg($('plot2'),{x:[1,Math.log2(24)],y:P.range(model.errors.map(p=>p[1]),false),xt:[1,2,3,4,Math.log2(24)],label:'雙重中點積分同步加密兩層分段後的誤差或參考差',curves:[{points:model.errors,color:'teal'}],points:[{x:Math.log2(s.n),y:logerr(model.result-model.reference.value),label:`n=${s.n}`}],xlabel:'log₂(n)',ylabel:model.reference.exact?'log₁₀ |誤差|':'log₁₀ |參考差|'});
+  $('plot2-caption').textContent=model.reference.exact?'目前使用解析參考值，圖中誤差來自中點小體積加總。某些低次模型在特定區域可能恰好精確。':'曲邊波面以高密度四點 Gauss 作參考。這是兩種方法的數值差，不是嚴格真誤差界。';
+  metrics([['雙重中點積分',model.result],['參考值',model.reference.value,model.reference.exact?'解析參考':'高密度四點 Gauss 參考'],[model.reference.exact?'絕對誤差':'高密度參考差',Math.abs(model.result-model.reference.value)],['長方柱個數',s.n*s.n,`外層 ${s.n} × 內層 ${s.n}`]]);
+  const regions={rectangle:'正方形',triangle:'三角形',parabola:'拋物線邊界'};$('insight').textContent=`目前在${regions[s.region]}上加總 ${s.n*s.n} 根中點長方柱。改變 n 會改變近似；拖曳旋轉或調整視角只改觀看方向，積分值維持 ${fmt(model.result,9)}。橙色切片同時標在曲面與底部區域。`;
+ }
+ function drawSurface(){if(active!=='double'||!surfaceCache||!$('surface'))return;P.surface($('surface'),surfaceCache,states.double);}
+ function bindOrbit(){const canvas=$('surface');canvas.setAttribute('role','img');let start=null;
+  canvas.addEventListener('pointerdown',e=>{start={x:e.clientX,y:e.clientY,yaw:states.double.yaw,pitch:states.double.pitch};canvas.setPointerCapture(e.pointerId);});
+  canvas.addEventListener('pointermove',e=>{if(!start)return;states.double.yaw=((start.yaw+(e.clientX-start.x)*.5+540)%360)-180;states.double.pitch=Math.max(15,Math.min(75,start.pitch-(e.clientY-start.y)*.35));for(const key of ['yaw','pitch'])$('controls').querySelector(`[data-key="${key}"]`).value=states.double[key];updateOutputs();cancelAnimationFrame(frame);frame=requestAnimationFrame(drawSurface);});
+  canvas.addEventListener('pointerup',()=>start=null);canvas.addEventListener('pointercancel',()=>start=null);
+ }
+ function drawImproper(){
+  const s=states.improper,n=2**s.npow,singular=s.iid==='singular',eps=10**s.epspow,alpha=s.alpha;
+  if(singular&&alpha>=1){
+   const f=x=>x**(-alpha),partial=alpha===1?-Math.log(eps):(1-eps**(1-alpha))/(1-alpha),direct=M.integrate(f,eps,1,n,'gauss4');
+   P.svg($('plot1'),{x:[0,1],y:[0,8],label:'不可積端點奇異函數，尖峰超出圖框',curves:[{fn:f,a:.00001}],segments:[{x1:eps,y1:0,x2:eps,y2:8,color:'orange',dash:true}]});
+   $('plot2').innerHTML='<div class="insight-panel"><h3>原瑕積分發散</h3><p>α≥1 時，不能使用 α&lt;1 的 [0,1] 平滑化公式。每次截斷都可能得到有限數，但端點極限沒有有限答案。</p></div>';
+   P.svg($('plot3'),{x:[-8,-1],y:P.range(P.sample(p=>alpha===1?-p*Math.log(10):(1-10**(p*(1-alpha)))/(1-alpha),-8,-1).map(v=>v[1])),label:'把截斷端點越推近零，有限截後積分持續增長',curves:[{fn:p=>alpha===1?-p*Math.log(10):(1-10**(p*(1-alpha)))/(1-alpha),color:'orange'}],xlabel:'log₁₀(ε)',ylabel:'截後積分'});
+   metrics([['原積分','發散'],['截後有限積分',direct],['截後解析值',partial],['截去長度 ε',eps]]);$('improper-error-title').textContent='截後數字有限，端點極限仍發散';$('plot3-caption').textContent='這裡畫的是截後積分值，不是對有限真值的誤差。';$('insight').textContent=`目前 α=${fmt(alpha,2)}≥1。把 ε 縮小，積分會持續增加；增加分段數只能改善截後區間的計算，不能讓發散的瑕積分變成收斂。`;$('plot2-caption').textContent='平滑化推導的適用條件不成立。';return;
+  }
+  const model=M.improper(s.iid,alpha),value=M.integrate(model.g,0,1,n,'gauss4'),cut=s.B;
+  const originalRange=singular?[0,1]:[0,cut],yr=singular?[0,8]:P.range(P.sample(model.f,0,cut).map(v=>v[1]));
+  P.svg($('plot1'),{x:originalRange,y:yr,label:singular?'可積端點奇異函數與截去端點位置':'原無窮積分的有限顯示與直接截斷區間',curves:[{fn:model.f,a:singular?.00001:0}],segments:singular?[{x1:eps,y1:0,x2:eps,y2:8,color:'orange',dash:true}]:[]});
+  P.svg($('plot2'),{x:[0,1],y:P.range(P.sample(model.g,0,1).map(v=>v[1])),label:'代換並延拓端點後的新被積函數',curves:[{fn:model.g,color:'teal'}],xlabel:model.xlabel,ylabel:'g('+model.xlabel+')'});
+  let tail,discrete,errPoints,errCurves;
+  if(singular){
+   const partial=e=>(1-e**(1-alpha))/(1-alpha);tail=eps**(1-alpha)/(1-alpha);discrete=Math.abs(M.integrate(model.f,eps,1,n,'gauss4')-partial(eps));
+   errCurves=[{fn:p=>logerr(10**(p*(1-alpha))/(1-alpha)),color:'orange'},{fn:p=>logerr(M.integrate(model.f,10**p,1,n,'gauss4')-partial(10**p)),color:'blue'}];
+   P.svg($('plot3'),{x:[-8,-1],y:[-16,2],xt:[-8,-6,-4,-2,-1],yt:[-16,-12,-8,-4,0],label:'端點截去面積與截後離散誤差，隨 ε 改變',curves:errCurves,segments:[{x1:s.epspow,y1:-16,x2:s.epspow,y2:2,color:'muted',dash:true}],xlabel:'log₁₀(ε)',ylabel:'log₁₀ 誤差'});
+  }else{
+   const partial=b=>s.iid==='tail'?Math.atan(b*b)/2:Math.atan(b);tail=model.exact-partial(cut);discrete=Math.abs(M.integrate(model.f,0,cut,n,'gauss4')-partial(cut));
+   errCurves=[{fn:b=>logerr(model.exact-partial(b)),color:'orange'},{fn:b=>logerr(M.integrate(model.f,0,b,n,'gauss4')-partial(b)),color:'blue'}];
+   P.svg($('plot3'),{x:[1,30],y:[-16,1],xt:[1,10,20,30],yt:[-16,-12,-8,-4,0],label:'尾端截斷誤差與有限區間離散誤差，隨 B 改變',curves:errCurves,segments:[{x1:cut,y1:-16,x2:cut,y2:1,color:'muted',dash:true}],xlabel:'截斷上限 B',ylabel:'log₁₀ 誤差'});
+  }
+  $('improper-error-title').textContent='把截斷與離散誤差分開';metrics([['代換後積分',value],['與解析值的差',Math.abs(value-model.exact)],['截斷漏掉面積',tail],['截後離散誤差',discrete,`四點 Gauss，n=${n}`]]);
+  $('plot1-caption').textContent=singular?`原尖峰只在繪圖上裁切。直接截去 [0,ε] 的 ε=${eps.toExponential(2)}，會漏掉一段可計算的面積。`:`左圖只畫 0 到 B=${fmt(cut,2)}。原積分仍到無窮遠；代換後結果不是把上限改成 B 的答案。`;
+  $('plot2-caption').textContent=model.transform+'；'+model.formula+'。'+model.condition;
+  $('plot3-caption').textContent=singular?'固定 n，單獨改變 ε。橙線是刪掉的面積；藍線只比較截後區間的數值與解析積分。':'固定 n，增加 B 會減少尾端面積，也會加大直接積分的步長。兩種誤差可能朝不同方向變化。';
+  $('insight').textContent=`代換後以 ${n} 小區間做四點 Gauss，結果 ${fmt(value,10)}，解析值為 ${fmt(model.exact,10)}。${singular?`目前 α=${fmt(alpha,2)}；接近 1 時，即使刪去很短的端點區間，也可能漏掉很大的面積。`:'注意左側截斷策略與右側變數代換策略是兩條不同計算路徑，不能混用誤差來源。'}`;
+ }
+ $('navigation').innerHTML=lessons.map((l,i)=>`<button data-lesson="${l.id}"><span>${String(i+1).padStart(2,'0')}</span>${l.label}</button>`).join('');$('navigation').querySelectorAll('button').forEach(el=>el.addEventListener('click',()=>select(el.dataset.lesson)));
+ $('controls').addEventListener('submit',e=>e.preventDefault());$('reset').addEventListener('click',()=>{states[active]=JSON.parse(JSON.stringify(initial[active]));surfaceCache=null;buildControls();layout();draw();});
+ $('theme').addEventListener('click',()=>{document.body.classList.toggle('dark');const dark=document.body.classList.contains('dark');$('theme').textContent=dark?'淺色模式':'深色模式';$('theme').setAttribute('aria-label',dark?'切換淺色模式':'切換深色模式');try{localStorage.setItem('nm-knowledge-theme',dark?'dark':'light');}catch(e){}draw();});
+ try{if(localStorage.getItem('nm-knowledge-theme')==='dark'){document.body.classList.add('dark');$('theme').textContent='淺色模式';$('theme').setAttribute('aria-label','切換淺色模式');}}catch(e){}
+ $('print').addEventListener('click',()=>window.print());window.addEventListener('hashchange',()=>select(location.hash.slice(1),false));let resize;window.addEventListener('resize',()=>{clearTimeout(resize);resize=setTimeout(draw,100);});select(location.hash.slice(1)||'taylor',false);
+})();
+</script></body></html>
